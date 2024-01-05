@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: deploy empty file
+    ansible.builtin.copy:
+      src: ./hwreport.empty
+      dest: /etc/hwreport.txt
+  
+  - name: generate a report
+    blockinfile:
+      path: /etc/hwreport.txt
+      create: yes
+      block: |
+        MEMORY_TOTAL: {{ ansible_facts['memtotal_mb' ]}}
+        MEMORY_FREE: {{ ansible_facts['memfree_mb' ]}}
+        HOSTNAME: {{ ansible_facts['hostname']}}
+        IPV4: {{ ansible_facts['default_ipv4']['address']}}
+        FQDN: {{ ansible_facts['fqdn'] }}
+        SDA_DISK_SIZE: {{ ansible_facts['devices']['sda']['partitions']['sda1']['size'] }}
+        SDB_DISK_SIZE: {{ ansible_devices.sdc.size | default('NONE') }}
