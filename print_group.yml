@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+  - name: Prod for prod hosts
+    copy:
+      dest: /tmp/file
+      content: "PROD"
+    when: "'prod' in group_names"
+  - name: Dev for dev hosts
+    copy:
+      dest: /tmp/file
+      content: "DEV"
+    when: "'dev' in group_names"
