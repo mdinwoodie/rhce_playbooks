@@ -1,0 +1,36 @@
+---
+- name: Create users
+  hosts: all
+  become: true
+  vars_files:
+    - ./users_list.yml
+    - ./secret.yml
+
+  tasks:
+
+    - name: Ensure group exists
+      group:
+        name: test
+        state: present
+
+    - name: Create managers on prod and dev hosts
+      user:
+        name: "{{ item.username }}"
+        group: test
+        password: "{{ user_password | password_hash('sha512') }}"
+        update_password: on_create
+      with_items: "{{ users }}"
+      when:
+        - ansible_fqdn in groups['prod'] or groups['dev']
+        - "item.title == 'manager'"
+
+    - name: Create developers on dev hosts
+      user:
+        name: "{{ item.username }}"
+        group: test
+        password: "{{ user_password | password_hash('sha512') }}"
+        update_password: on_create
+      with_items: "{{ users }}"
+      when:
+        - ansible_fqdn in groups['dev']
+        - "item.title == 'developer'"
