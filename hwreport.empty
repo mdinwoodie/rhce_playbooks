@@ -1,0 +1,7 @@
+MEMORY_TOTAL: mem_total
+MEMORY_FREE: mem_free
+HOSTNAME: hostname
+IPV4: ipv4
+FQDN: fqdn
+SDA_DISK_SIZE: size
+SDB_DISK_SIZE: size
