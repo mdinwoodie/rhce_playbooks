@@ -5,9 +5,12 @@
     copy:
       dest: /tmp/file
       content: "PROD"
-    when: "'prod' in group_names"
+    #when: "'prod' in group_names" # one method
+    when: ansible_fqdn in groups['prod'] # another method
+    
   - name: Dev for dev hosts
     copy:
       dest: /tmp/file
       content: "DEV"
-    when: "'dev' in group_names"
+    #when: "'dev' in group_names" # one method
+    when: ansible_fqdn in groups['dev'] # another method
