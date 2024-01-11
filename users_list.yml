@@ -1,0 +1,10 @@
+---
+users:
+  - username: spongebob
+    title: manager
+  - username: sandy
+    title: manager
+  - username: squidward
+    title: developer
+  - username: patrick
+    title: developer
